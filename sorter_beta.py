@@ -1,14 +1,14 @@
-from gensim.models.doc2vec import Doc2Vec, TaggedDocument
-from nltk.tokenize import word_tokenize
-from numpy.linalg import norm
-from termcolor import colored
+#from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+#from nltk.tokenize import word_tokenize
+#from numpy.linalg import norm
+#from termcolor import colored
 import pandas as pd
 import numpy as np
 import requests
 import PyPDF2
 import re
 import plotly.graph_objects as go
-import nltk
+#import nltk
 #nltk.download('punkt')
 import os
 import streamlit as st
@@ -18,17 +18,18 @@ from PIL import Image
 import socketserver
 import threading
 import plotly.express as px
+#from pydantic_settings import BaseSettings
+import chromadb
+import time
+#client = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet",
+                                    #persist_directory="db/"
+                                #))
 
 
-class person_cv():
-      def __init__(self, nombre, pdf_path, email, telefono):
-        self.nombre = nombre
-        self.pdf_path = pdf_path  
-        self.email = email
-        self.telefono = telefono
+client = chromadb.Client()
+
+
     
-
-
 
 
 
@@ -74,7 +75,16 @@ def start_pdf_server(port=8081):
     httpd = socketserver.TCPServer(("", port), handler)
     thread = threading.Thread(target=httpd.serve_forever)
     thread.start()
-    print(f"PDF server started at port {port}")
+    #print(f"PDF server started at port {port}")
+
+def read_chroma_db(query):
+    cv_collection = client.get_or_create_collection(name="cv_collection")
+    results = cv_collection.query(
+    query_texts=[query],
+    n_results=1
+    )
+    return results
+    
 
 
 ###########################
@@ -89,7 +99,7 @@ def save_uploaded_files(uploaded_files):
     for uploaded_file in uploaded_files:
         with open(os.path.join('./CV', uploaded_file.name), 'wb') as f:
             f.write(uploaded_file.getvalue())
-        st.sidebar.success(f"Archivo {uploaded_file.name} guardado con éxito")
+        #st.sidebar.success(f"Archivo {uploaded_file.name} guardado con éxito")
 
 
 def delete_files_in_directory(directory):
@@ -98,9 +108,10 @@ def delete_files_in_directory(directory):
         try:
             if os.path.isfile(file_path):
                 os.unlink(file_path)
-                st.sidebar.success(f"Archivo {filename} eliminado con éxito")
+               # st.sidebar.success(f"Archivo {filename} eliminado con éxito")
         except Exception as e:
-            st.error(f"Error al eliminar el archivo {filename}: {e}")
+            #st.error(f"Error al eliminar el archivo {filename}: {e}")
+            pass
 
 
 
@@ -136,7 +147,8 @@ def delete_table_contents():
         
         return "Contenido de la tabla borrado con éxito."
     except Exception as e:
-        return f"Error al borrar el contenido de la tabla: {e}"
+        pass
+        #return f"Error al borrar el contenido de la tabla: {e}"
     
 
 ##################################################################
@@ -155,7 +167,7 @@ def preprocess_text(text):
     text = text.lower()
     
     # Remove punctuation from the text
-    text = re.sub('[^a-z]', ' ', text)
+    text = re.sub('[^a-záéíóúüñ]', ' ', text)
     
     # Remove numerical values from the text
     text = re.sub(r'\d+', '', text)
@@ -172,7 +184,32 @@ def evaluate_candidate(input_CV,input_JD,model):
     return round(similarity, 2)
 
 
-def process_JD_and_get_matches(jd,model,path_to_folder):
+def store_CV_in_db(file_data):
+    documents = []
+    metadatas = []
+    ids = []
+
+    for index, data in enumerate(file_data):
+        documents.append(data['content'])
+        metadatas.append({'source': data['file_name']})
+        ids.append(str(index + 1))
+
+    # create collection of pet files 
+    cv_collection = client.create_collection("pet_collection")
+
+    # add files to the chromadb collection
+    cv_collection.add(
+        documents=documents,
+        metadatas=metadatas,
+        ids=ids
+    )
+    return cv_collection
+
+
+
+
+def read_CV_from_pdf(path_to_folder):
+    file_data = []
     all_files = os.listdir(path_to_folder)
     df = pd.DataFrame(columns=['Filename', 'MatchValue', 'Skills'])
     # Filtra solo los archivos PDF
@@ -185,19 +222,14 @@ def process_JD_and_get_matches(jd,model,path_to_folder):
             resume = ''
             for i in range(len(pdf.pages)):
                 pageObj = pdf.pages[i]
-                text_to_translate=pageObj.extract_text()
-
-                resume+=text_to_translate
-        input_CV = preprocess_text(resume)
-        input_JD = preprocess_text(jd)
-        match = evaluate_candidate(input_CV, input_JD, model)
-        df.loc[j] = {'Filename': pdf_file, 'MatchValue': match}
+                text_to=pageObj.extract_text()
+                resume+=text_to
+        file_data.append({"file_name": pdf_file, "content": resume})
+        
         j=j+1
-        progress_bar.progress(int(j*100/len(all_files)),text=f"processing: {pdf_file}")
-        print("="*50)
-    df['MatchValue'] = df['MatchValue'].astype(float)
-    df_sorted = df.sort_values(by='MatchValue', ascending=False)
-    return df_sorted
+        #progress_bar.progress(int(j*100/len(all_files)),text=f"processing: {pdf_file}")
+        #print("="*50)
+    return file_data
 
 
 
@@ -206,35 +238,42 @@ def process_JD_and_get_matches(jd,model,path_to_folder):
 
 def main():
     path_to_folder='./CV/'
-    selected_pdf=pd.DataFrame()
-    init_db()
-    try:
-        start_pdf_server()
-    except:
-        print("No se pudo inciar el servidor pdf")
+    #selected_pdf=pd.DataFrame()
+    #init_db()
+    #try:
+      #  start_pdf_server()
+    #except:
+    #    print("No se pudo inciar el servidor pdf")
     
 
     df_sorted=pd.DataFrame
-    model = Doc2Vec.load('cv_job_maching.model')
+    #model = Doc2Vec.load('cv_job_maching.model')
     st.title("CV Sorter")
     st.write("Insert the job description and get the matching CVs.")
 
     # Text area for the user to input the job description
     jd = st.text_area("Job Description", "")
-    if st.button("Process"):
+    if st.button("Process cv"):
         if jd:
-            df_sorted = process_JD_and_get_matches(jd,model,path_to_folder)
+            file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
+            cv_collection=store_CV_in_db(file_data)
             store_to_sqlite(df_sorted)
         else:
             st.write("Please enter a job description to process.")
     if st.button('Borrar contenido de la tabla'):
         message = delete_table_contents()
         st.write(message)
+    if st.button('procesar query'):
+        results=read_chroma_db(jd)
+        st.write(results)
+
 
     df_sorted_from_db = read_from_sqlite()
+    df_sorted_from_db=pd.DataFrame()
     if not df_sorted_from_db.empty:
         selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
         pdf_url = f"http://localhost:8081/CV/{selected_pdf}"
+        pdf_url=""
         st.markdown(f'<iframe src="{pdf_url}" width="700" height="900"></iframe>', unsafe_allow_html=True)
         fig = px.scatter(df_sorted_from_db, x="Filename", y="MatchValue", title="Match Values por Filename", height=1000)
         fig.update_traces(mode="lines+markers")
