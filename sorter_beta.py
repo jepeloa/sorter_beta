@@ -195,7 +195,7 @@ def store_CV_in_db(file_data):
         ids.append(str(index + 1))
 
     # create collection of pet files 
-    cv_collection = client.create_collection("pet_collection")
+    cv_collection = client.create_collection("cv_collection")
 
     # add files to the chromadb collection
     cv_collection.add(
@@ -227,8 +227,8 @@ def read_CV_from_pdf(path_to_folder):
         file_data.append({"file_name": pdf_file, "content": resume})
         
         j=j+1
-        #progress_bar.progress(int(j*100/len(all_files)),text=f"processing: {pdf_file}")
-        #print("="*50)
+        progress_bar.progress(int(j*100/len(all_files)),text=f"processing: {pdf_file}")
+        print("="*50)
     return file_data
 
 
