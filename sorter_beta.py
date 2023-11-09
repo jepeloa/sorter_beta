@@ -238,12 +238,12 @@ def read_CV_from_pdf(path_to_folder):
 
 def main():
     path_to_folder='./CV/'
-    #selected_pdf=pd.DataFrame()
-    #init_db()
-    #try:
-      #  start_pdf_server()
-    #except:
-    #    print("No se pudo inciar el servidor pdf")
+    selected_pdf=pd.DataFrame()
+    init_db()
+    try:
+        start_pdf_server()
+    except:
+        print("No se pudo inciar el servidor pdf")
     
 
     df_sorted=pd.DataFrame
@@ -256,7 +256,7 @@ def main():
     if st.button("Process cv"):
         file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
         cv_collection=store_CV_in_db(file_data)
-        store_to_sqlite(df_sorted)
+        
             
     if st.button('Borrar contenido de la tabla'):
         message = delete_table_contents()
@@ -264,6 +264,15 @@ def main():
     if st.button('procesar query'):
         if jd:
             results=read_chroma_db(jd,5)
+            file_values = [meta['source'] for meta in results['metadatas'][0]]
+            match_values = results['distances'][0]
+
+            # Creamos el DataFrame
+            df_sorted = pd.DataFrame({
+            'file': file_values,
+            'match': match_values
+            })
+            store_to_sqlite(df_sorted)
             st.write(results)
         else:
             st.write("Please enter a job description to process.")
@@ -273,8 +282,7 @@ def main():
     df_sorted_from_db=pd.DataFrame()
     if not df_sorted_from_db.empty:
         selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
-        pdf_url = f"http://localhost:8081/CV/{selected_pdf}"
-        pdf_url=""
+        pdf_url = f"http://143.198.139.51/:8081/CV/{selected_pdf}"
         st.markdown(f'<iframe src="{pdf_url}" width="700" height="900"></iframe>', unsafe_allow_html=True)
         fig = px.scatter(df_sorted_from_db, x="Filename", y="MatchValue", title="Match Values por Filename", height=1000)
         fig.update_traces(mode="lines+markers")
