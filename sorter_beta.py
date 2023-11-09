@@ -232,6 +232,18 @@ def read_CV_from_pdf(path_to_folder):
     return file_data
 
 
+def read_JD_from_pdf(path_to_folder="./JD/JD.pdf"):
+        with open(pdf_path, 'rb') as f:
+            pdf = PyPDF2.PdfReader(f)
+            JD = ''
+            for i in range(len(pdf.pages)):
+                pageObj = pdf.pages[i]
+                text_to=pageObj.extract_text()
+                JD+=text_to  
+    
+        return JD
+
+
 progress_bar = st.sidebar.progress(0)
 delete_cvs=st.sidebar.button('del CVs')
 process_start= st.sidebar.button("Process cv")
@@ -280,6 +292,20 @@ def main():
             store_to_sqlite(df_sorted)
         else:
             st.write("Please enter a job description to process.")
+
+    if st.button('procesar JD'):
+        query=read_JD_from_pdf()
+        results=read_chroma_db(jd,5)
+        file_values = [meta['source'] for meta in results['metadatas'][0]]
+        match_values = results['distances'][0]
+
+        # Creamos el DataFrame
+        df_sorted = pd.DataFrame({
+        'Filename': file_values,
+        'MatchValue': match_values
+        })
+        store_to_sqlite(df_sorted)
+
 
     col1, col2 = st.columns([3, 1])
     df_sorted_from_db = read_from_sqlite()
