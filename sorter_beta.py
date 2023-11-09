@@ -43,7 +43,7 @@ uploaded_files=st.sidebar.file_uploader("Upload CVs", accept_multiple_files=True
 ####################################################
 def store_to_sqlite(df):
     conn = sqlite3.connect('pdf_database.db')
-    df.to_sql('pdf_list', conn, if_exists='replace', index=False)  # Guarda el dataframe en la tabla 'pdf_list'
+    #df.to_sql('pdf_list', conn, if_exists='replace', index=False)  # Guarda el dataframe en la tabla 'pdf_list'
     conn.close()
 
 
