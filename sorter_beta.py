@@ -160,8 +160,6 @@ def delete_table_contents():
 
 ##################################################################
 
-progress_bar = st.progress(0)
-
 
 
 
@@ -223,7 +221,7 @@ def read_CV_from_pdf(path_to_folder):
 
 
 
-
+progress_bar = st.progress(0)
 def main():
     path_to_folder='./CV/'
     init_db()
@@ -240,7 +238,7 @@ def main():
 
     # Text area for the user to input the job description
     jd = st.text_area("Job Description", "")
-    if st.button("Process cv"):
+    if st.sidebar.button("Process cv"):
         file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
         cv_collection=store_CV_in_db(file_data)
         
