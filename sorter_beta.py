@@ -246,6 +246,8 @@ def read_JD_from_pdf(path_to_folder="./JD/JD.pdf"):
         return JD
 
 # Text area for the user to input the job description
+st.title("CV Sorter")
+st.write("Insert the job description and get the matching CVs.")
 jd = st.text_area("Job Description summary", "")
 progress_bar = st.sidebar.progress(0)
 delete_cvs=st.sidebar.button('del CVs')
@@ -268,8 +270,6 @@ def main():
 
     df_sorted=pd.DataFrame
     #model = Doc2Vec.load('cv_job_maching.model')
-    st.title("CV Sorter")
-    st.write("Insert the job description and get the matching CVs.")
 
     
     if process_start:
