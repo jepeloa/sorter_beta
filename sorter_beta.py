@@ -47,7 +47,7 @@ image = Image.open('logo.png')
 st.sidebar.image(image, caption=' ', width=200)
 
 uploaded_files=st.sidebar.file_uploader("Upload CVs", accept_multiple_files=True, type="pdf", key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="collapsed")
-JD_files=st.sidebar.file_uploader("Upload CVs", accept_multiple_files=True, type="pdf", key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="collapsed")
+JD_files=st.sidebar.file_uploader("Upload JD", accept_multiple_files=True, type="pdf", key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="collapsed")
 
 ####################################################
 def store_to_sqlite(df):
