@@ -28,7 +28,15 @@ import time
 
 client = chromadb.Client()
 
+conn = sqlite3.connect('pdf_database.db')
+cursor = conn.cursor()
 
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS mis_documentos (
+    id INTEGER PRIMARY KEY,
+    Filename TEXT
+)
+''')
     
 
 
@@ -252,7 +260,6 @@ def main():
             'MatchValue': match_values
             })
             store_to_sqlite(df_sorted)
-            st.write(df_sorted)
         else:
             st.write("Please enter a job description to process.")
 
