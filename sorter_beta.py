@@ -43,7 +43,7 @@ uploaded_files=st.sidebar.file_uploader("Upload CVs", accept_multiple_files=True
 ####################################################
 def store_to_sqlite(df):
     conn = sqlite3.connect('pdf_database.db')
-    #df.to_sql('pdf_list', conn, if_exists='replace', index=False)  # Guarda el dataframe en la tabla 'pdf_list'
+    df.to_sql('pdf_list', conn, if_exists='replace', index=False)  # Guarda el dataframe en la tabla 'pdf_list'
     conn.close()
 
 
@@ -108,10 +108,10 @@ def delete_files_in_directory(directory):
         try:
             if os.path.isfile(file_path):
                 os.unlink(file_path)
-               # st.sidebar.success(f"Archivo {filename} eliminado con éxito")
+                st.sidebar.success(f"Archivo {filename} eliminado con éxito")
         except Exception as e:
-            #st.error(f"Error al eliminar el archivo {filename}: {e}")
-            pass
+            st.error(f"Error al eliminar el archivo {filename}: {e}")
+
 
 
 
@@ -147,8 +147,7 @@ def delete_table_contents():
         
         return "Contenido de la tabla borrado con éxito."
     except Exception as e:
-        pass
-        #return f"Error al borrar el contenido de la tabla: {e}"
+        return f"Error al borrar el contenido de la tabla: {e}"
     
 
 ##################################################################
