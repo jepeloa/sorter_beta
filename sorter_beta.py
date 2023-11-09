@@ -77,11 +77,11 @@ def start_pdf_server(port=8081):
     thread.start()
     #print(f"PDF server started at port {port}")
 
-def read_chroma_db(query):
+def read_chroma_db(query,quantity=1):
     cv_collection = client.get_collection(name="cv_collection")
     results = cv_collection.query(
     query_texts=[query],
-    n_results=1
+    n_results=quantity
     )
     return results
     
@@ -254,18 +254,19 @@ def main():
     # Text area for the user to input the job description
     jd = st.text_area("Job Description", "")
     if st.button("Process cv"):
-        if jd:
-            file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
-            cv_collection=store_CV_in_db(file_data)
-            store_to_sqlite(df_sorted)
-        else:
-            st.write("Please enter a job description to process.")
+        file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
+        cv_collection=store_CV_in_db(file_data)
+        store_to_sqlite(df_sorted)
+            
     if st.button('Borrar contenido de la tabla'):
         message = delete_table_contents()
         st.write(message)
     if st.button('procesar query'):
-        results=read_chroma_db(jd)
-        st.write(results)
+        if jd:
+            results=read_chroma_db(jd)
+            st.write(results)
+        else:
+            st.write("Please enter a job description to process.")
 
 
     df_sorted_from_db = read_from_sqlite()
