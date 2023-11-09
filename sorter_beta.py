@@ -141,6 +141,7 @@ def delete_files_in_directory(directory):
 if uploaded_files:
         client.delete_collection(name="cv_collection")
         save_uploaded_files(uploaded_files)
+
 #if JD_files:
    # if st.button('Upload JD_file'):
      #   save_JD_files(JD_files)
@@ -250,6 +251,7 @@ st.write("Insert the job description and get the matching CVs.")
 jd = st.text_area("Job Description summary", "")
 progress_bar = st.sidebar.progress(0)
 delete_cvs=st.sidebar.button('del CVs')
+process_start= st.sidebar.button("Process cv")
 delete_query = st.button('delete')
 
 if delete_cvs:
@@ -270,7 +272,7 @@ def main():
     #model = Doc2Vec.load('cv_job_maching.model')
 
     
-    if uploaded_files:
+    if process_start:
         file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
         cv_collection=store_CV_in_db(file_data)
         
