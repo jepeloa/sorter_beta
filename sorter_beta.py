@@ -128,10 +128,6 @@ if uploaded_files:
             save_uploaded_files(uploaded_files)
 
 
-if delete_cvs:
-        delete_files_in_directory('./CV')
-
-
 
 conn = sqlite3.connect('pdf_database.db')
 cursor = conn.cursor()
@@ -222,6 +218,11 @@ progress_bar = st.sidebar.progress(0)
 delete_cvs=st.sidebar.button('del CVs')
 process_start= st.sidebar.button("Process cv")
 delete_query = st.button('delete')
+
+if delete_cvs:
+        delete_files_in_directory('./CV')
+
+
 
 def main():
     path_to_folder='./CV/'
