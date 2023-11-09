@@ -140,7 +140,7 @@ def delete_files_in_directory(directory):
 
 if uploaded_files:
         if st.sidebar.button('Guardar PDFs'):
-            client.reset()
+            client.delete_collection(name="cv_collection")
             save_uploaded_files(uploaded_files)
         pass
 #if JD_files:
