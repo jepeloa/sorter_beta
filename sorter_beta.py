@@ -221,7 +221,7 @@ def read_CV_from_pdf(path_to_folder):
 
 
 
-progress_bar = st.progress(0)
+progress_bar = st.sidebar.progress(0)
 def main():
     path_to_folder='./CV/'
     init_db()
