@@ -245,7 +245,8 @@ def read_JD_from_pdf(path_to_folder="./JD/JD.pdf"):
     
         return JD
 
-
+# Text area for the user to input the job description
+jd = st.text_area("Job Description summary", "")
 progress_bar = st.sidebar.progress(0)
 delete_cvs=st.sidebar.button('del CVs')
 process_start= st.sidebar.button("Process cv")
@@ -270,8 +271,7 @@ def main():
     st.title("CV Sorter")
     st.write("Insert the job description and get the matching CVs.")
 
-    # Text area for the user to input the job description
-    jd = st.text_area("Job Description", "")
+    
     if process_start:
         file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
         cv_collection=store_CV_in_db(file_data)
