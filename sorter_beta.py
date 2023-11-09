@@ -233,7 +233,7 @@ def read_CV_from_pdf(path_to_folder):
 
 
 def read_JD_from_pdf(path_to_folder="./JD/JD.pdf"):
-        with open(pdf_path, 'rb') as f:
+        with open(path_to_folder, 'rb') as f:
             pdf = PyPDF2.PdfReader(f)
             JD = ''
             for i in range(len(pdf.pages)):
