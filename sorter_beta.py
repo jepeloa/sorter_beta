@@ -128,7 +128,7 @@ if uploaded_files:
             save_uploaded_files(uploaded_files)
 
 
-if st.sidebar.button('Borrar CVs'):
+if delete_cvs:
         delete_files_in_directory('./CV')
 
 
@@ -219,6 +219,7 @@ def read_CV_from_pdf(path_to_folder):
 
 
 progress_bar = st.sidebar.progress(0)
+delete_cvs=st.sidebar.button('del CVs')
 process_start= st.sidebar.button("Process cv")
 delete_query = st.button('delete')
 
