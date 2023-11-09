@@ -255,7 +255,7 @@ def main():
             'match': match_values
             })
             store_to_sqlite(df_sorted)
-            st.write(f_sorted)
+            st.write(df_sorted)
         else:
             st.write("Please enter a job description to process.")
 
