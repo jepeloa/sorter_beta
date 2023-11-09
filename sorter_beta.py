@@ -139,10 +139,8 @@ def delete_files_in_directory(directory):
 
 
 if uploaded_files:
-        if st.sidebar.button('Guardar PDFs'):
-            client.delete_collection(name="cv_collection")
-            save_uploaded_files(uploaded_files)
-        pass
+        client.delete_collection(name="cv_collection")
+        save_uploaded_files(uploaded_files)
 #if JD_files:
    # if st.button('Upload JD_file'):
      #   save_JD_files(JD_files)
