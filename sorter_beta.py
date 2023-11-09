@@ -277,6 +277,7 @@ def main():
         selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
         pdf_url = f"http://143.198.139.51:8081/CV/{selected_pdf}"
         skills=obtain_skills(f"./CV/{selected_pdf}")
+        s=""
         for i in skills:
             s += "- " + i + "\n"
         st.markdown(s)
