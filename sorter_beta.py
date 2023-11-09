@@ -75,7 +75,7 @@ def start_pdf_server(port=8081):
     httpd = socketserver.TCPServer(("", port), handler)
     thread = threading.Thread(target=httpd.serve_forever)
     thread.start()
-    #print(f"PDF server started at port {port}")
+    print(f"PDF server started at port {port}")
 
 def read_chroma_db(query,quantity=1):
     cv_collection = client.get_collection(name="cv_collection")
@@ -162,26 +162,8 @@ progress_bar = st.progress(0)
 ###################################################################
 
 
-def preprocess_text(text):
-    # Convert the text to lowercase
-    text = text.lower()
-    
-    # Remove punctuation from the text
-    text = re.sub('[^a-záéíóúüñ]', ' ', text)
-    
-    # Remove numerical values from the text
-    text = re.sub(r'\d+', '', text)
-    
-    # Remove extra whitespaces
-    text = ' '.join(text.split())
-    
-    return text
 
-def evaluate_candidate(input_CV,input_JD,model):
-    v1 = model.infer_vector(input_CV.split())
-    v2 = model.infer_vector(input_JD.split())
-    similarity = 100*((np.dot(np.array(v1), np.array(v2))) / (norm(np.array(v1)) * norm(np.array(v2))))
-    return round(similarity, 2)
+
 
 
 def store_CV_in_db(file_data):
@@ -273,7 +255,7 @@ def main():
             'match': match_values
             })
             store_to_sqlite(df_sorted)
-            st.write(results)
+            st.write(f_sorted)
         else:
             st.write("Please enter a job description to process.")
 
