@@ -263,7 +263,7 @@ def main():
         st.write(message)
     if st.button('procesar query'):
         if jd:
-            results=read_chroma_db(jd)
+            results=read_chroma_db(jd,5)
             st.write(results)
         else:
             st.write("Please enter a job description to process.")
