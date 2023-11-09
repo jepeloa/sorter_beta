@@ -320,7 +320,7 @@ def main():
         for i in skills:
             s += "- " + i + "\n"
         st.markdown(s)
-        
+        df_sorted_from_db['MatchValue']=1-(df_sorted_from_db['MatchValue']/df_sorted_from_db['MatchValue'].max())
         fig = px.bar(df_sorted_from_db, x='Filename', y='MatchValue', title='Match Values by Filename')
 
         # Mostrar el gráfico en Streamlit
