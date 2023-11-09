@@ -47,7 +47,7 @@ image = Image.open('logo.png')
 st.sidebar.image(image, caption=' ', width=200)
 
 uploaded_files=st.sidebar.file_uploader("Upload CVs", accept_multiple_files=True, type="pdf", key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="collapsed")
-
+JD_files=st.sidebar.file_uploader("Upload CVs", accept_multiple_files=False, type="pdf", key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="collapsed")
 
 ####################################################
 def store_to_sqlite(df):
@@ -117,6 +117,13 @@ def save_uploaded_files(uploaded_files):
             f.write(uploaded_file.getvalue())
         st.sidebar.success(f"Archivo {uploaded_file.name} guardado con éxito")
 
+def save_JD_files(JD_files="JD.pdf"):
+    for uploaded_file in JD_files:
+        with open(os.path.join('./JD', uploaded_file.name), 'wb') as f:
+            f.write(uploaded_file.getvalue())
+        st.sidebar.success(f"Archivo {uploaded_file.name} guardado con éxito")
+
+
 
 def delete_files_in_directory(directory):
     for filename in os.listdir(directory):
@@ -134,6 +141,9 @@ def delete_files_in_directory(directory):
 if uploaded_files:
         if st.sidebar.button('Guardar PDFs'):
             save_uploaded_files(uploaded_files)
+if JD_files:
+    if st.button('Upload JD_file'):
+        save_JD_files(JD_files)
 
 
 
