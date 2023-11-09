@@ -280,10 +280,10 @@ def main():
         s=""
         for i in skills:
             s += "- " + i + "\n"
-        with col2:
-            st.markdown(s)
-        with col1:
-            st.markdown(f'<iframe src="{pdf_url}" width="700" height="900"></iframe>', unsafe_allow_html=True)
+     
+        st.markdown(s)
+ 
+        st.markdown(f'<iframe src="{pdf_url}" width="700" height="900"></iframe>', unsafe_allow_html=True)
 if __name__ == "__main__":
     main()
 
