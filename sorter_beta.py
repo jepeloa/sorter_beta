@@ -218,7 +218,6 @@ def read_CV_from_pdf(path_to_folder):
 
 def main():
     path_to_folder='./CV/'
-    selected_pdf=pd.DataFrame()
     init_db()
     try:
         start_pdf_server()
