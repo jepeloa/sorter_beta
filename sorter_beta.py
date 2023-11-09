@@ -261,7 +261,6 @@ def main():
 
     df_sorted_from_db = read_from_sqlite()
     st.write(df_sorted_from_db)
-    df_sorted_from_db=pd.DataFrame()
     if not df_sorted_from_db.empty:
         selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
         pdf_url = f"http://143.198.139.51/:8081/CV/{selected_pdf}"
