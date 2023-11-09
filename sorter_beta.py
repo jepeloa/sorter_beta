@@ -295,18 +295,18 @@ def main():
         else:
             st.write("Please enter a job description to process.")
 
-    if st.button('procesar JD'):
-        query=read_JD_from_pdf()
-        results=read_chroma_db(jd,5)
-        file_values = [meta['source'] for meta in results['metadatas'][0]]
-        match_values = results['distances'][0]
+    #if st.button('procesar JD'):
+        #query=read_JD_from_pdf()
+        #results=read_chroma_db(jd,5)
+        #file_values = [meta['source'] for meta in results['metadatas'][0]]
+        #match_values = results['distances'][0]
 
         # Creamos el DataFrame
-        df_sorted = pd.DataFrame({
-        'Filename': file_values,
-        'MatchValue': match_values
-        })
-        store_to_sqlite(df_sorted)
+        #df_sorted = pd.DataFrame({
+        #'Filename': file_values,
+        #'MatchValue': match_values
+        #})
+        #store_to_sqlite(df_sorted)
 
 
     col1, col2 = st.columns([3, 1])
