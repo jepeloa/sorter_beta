@@ -21,6 +21,7 @@ import plotly.express as px
 #from pydantic_settings import BaseSettings
 import chromadb
 import time
+from pyresparser import ResumeParser
 #client = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet",
                                     #persist_directory="db/"
                                 #))
@@ -76,6 +77,13 @@ def init_db():
     conn.close()
 
 ###########################################################
+
+def obtain_skills(pdf_file):
+    data = []
+    resume_data = ResumeParser(pdf_file).get_extracted_data()
+    skills = resume_data.get('skills', [])
+    return skills
+
 
 
 def start_pdf_server(port=8081):
@@ -268,10 +276,9 @@ def main():
     if not df_sorted_from_db.empty:
         selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
         pdf_url = f"http://143.198.139.51:8081/CV/{selected_pdf}"
+        skills=obtain_skills(f"./CV/{selected_pdf}")
+        st.write(skills)
         st.markdown(f'<iframe src="{pdf_url}" width="700" height="900"></iframe>', unsafe_allow_html=True)
-        fig = px.scatter(df_sorted_from_db, x="Filename", y="MatchValue", title="Match Values por Filename", height=1000)
-        fig.update_traces(mode="lines+markers")
-        st.plotly_chart(fig)
 if __name__ == "__main__":
     main()
 
