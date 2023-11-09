@@ -119,8 +119,8 @@ def save_uploaded_files(uploaded_files):
 
 def save_JD_files(JD_files):
     for uploaded_file in JD_files:
-        with open(os.path.join('./JD', uploaded_file.name), 'wb') as f:
-            f.write("JD.pdf")
+        with open(os.path.join('./JD', "JD.pdf"), 'wb') as f:
+            f.write(uploaded_file.getvalue())
         st.sidebar.success(f"Archivo {uploaded_file.name} guardado con éxito")
 
 
