@@ -193,7 +193,6 @@ def store_CV_in_db(file_data):
 def read_CV_from_pdf(path_to_folder):
     file_data = []
     all_files = os.listdir(path_to_folder)
-    df = pd.DataFrame(columns=['Filename', 'MatchValue', 'Skills'])
     # Filtra solo los archivos PDF
     pdf_files = [file for file in all_files if file.endswith('.pdf')]
     j=0 #contador de archivos
@@ -251,8 +250,8 @@ def main():
 
             # Creamos el DataFrame
             df_sorted = pd.DataFrame({
-            'file': file_values,
-            'match': match_values
+            'Filename': file_values,
+            'MatchValue': match_values
             })
             store_to_sqlite(df_sorted)
             st.write(df_sorted)
@@ -261,6 +260,7 @@ def main():
 
 
     df_sorted_from_db = read_from_sqlite()
+    st.write(df_sorted_from_db)
     df_sorted_from_db=pd.DataFrame()
     if not df_sorted_from_db.empty:
         selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
