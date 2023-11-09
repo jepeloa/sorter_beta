@@ -271,7 +271,7 @@ def main():
         else:
             st.write("Please enter a job description to process.")
 
-
+    col1, col2 = st.columns([3, 1])
     df_sorted_from_db = read_from_sqlite()
     if not df_sorted_from_db.empty:
         selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
@@ -280,8 +280,10 @@ def main():
         s=""
         for i in skills:
             s += "- " + i + "\n"
-        st.markdown(s)
-        st.markdown(f'<iframe src="{pdf_url}" width="700" height="900"></iframe>', unsafe_allow_html=True)
+        with col2:
+            st.markdown(s)
+        with col1:
+            st.markdown(f'<iframe src="{pdf_url}" width="700" height="900"></iframe>', unsafe_allow_html=True)
 if __name__ == "__main__":
     main()
 
