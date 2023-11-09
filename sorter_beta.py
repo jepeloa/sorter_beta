@@ -265,7 +265,6 @@ def main():
 
 
     df_sorted_from_db = read_from_sqlite()
-    st.write(df_sorted_from_db)
     if not df_sorted_from_db.empty:
         selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
         pdf_url = f"http://143.198.139.51:8081/CV/{selected_pdf}"
@@ -273,7 +272,6 @@ def main():
         fig = px.scatter(df_sorted_from_db, x="Filename", y="MatchValue", title="Match Values por Filename", height=1000)
         fig.update_traces(mode="lines+markers")
         st.plotly_chart(fig)
-        st.write(df_sorted_from_db)
 if __name__ == "__main__":
     main()
 
