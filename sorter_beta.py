@@ -218,10 +218,10 @@ def read_CV_from_pdf(path_to_folder):
     return file_data
 
 
-
-
-
 progress_bar = st.sidebar.progress(0)
+process_start= st.sidebar.button("Process cv")
+delete_query = st.button('delete')
+
 def main():
     path_to_folder='./CV/'
     init_db()
@@ -238,12 +238,12 @@ def main():
 
     # Text area for the user to input the job description
     jd = st.text_area("Job Description", "")
-    if st.sidebar.button("Process cv"):
+    if process_start:
         file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
         cv_collection=store_CV_in_db(file_data)
         
             
-    if st.button('Borrar contenido de la tabla'):
+    if delete_query:
         message = delete_table_contents()
         st.write(message)
     if st.button('procesar query'):
