@@ -254,7 +254,6 @@ st.write("Insert the job description and get the matching CVs.")
 jd = st.text_area("Job Description summary", "")
 progress_bar = st.sidebar.progress(0)
 delete_cvs=st.sidebar.button('del CVs')
-process_start= st.sidebar.button("Process cv")
 delete_query = st.button('delete')
 
 if delete_cvs:
@@ -275,7 +274,7 @@ def main():
     #model = Doc2Vec.load('cv_job_maching.model')
 
     
-    if process_start:
+    if uploaded_files:
         file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
         cv_collection=store_CV_in_db(file_data)
         
