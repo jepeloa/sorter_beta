@@ -274,7 +274,13 @@ def main():
         start_pdf_server()
     except:
         print("No se pudo inciar el servidor pdf")
-    
+
+    if 'uploaded_files' not in st.session_state:
+        st.session_state['uploaded_files'] = []
+
+    if uploaded_files:
+        for uploaded_file in uploaded_files:
+            st.session_state['uploaded_files'].append(uploaded_file)
 
     df_sorted=pd.DataFrame
     #model = Doc2Vec.load('cv_job_maching.model')
@@ -289,6 +295,8 @@ def main():
         message = delete_table_contents()
         st.write(message)
     if st.button('procesar query'):
+        st.session_state['uploaded_files'].remove(uploaded_file)
+        st.experimental_rerun()
         if jd:
             results=read_chroma_db(jd,5)
             file_values = [meta['source'] for meta in results['metadatas'][0]]
@@ -302,20 +310,6 @@ def main():
             store_to_sqlite(df_sorted)
         else:
             st.write("Please enter a job description to process.")
-
-    #if st.button('procesar JD'):
-        #query=read_JD_from_pdf()
-        #results=read_chroma_db(jd,5)
-        #file_values = [meta['source'] for meta in results['metadatas'][0]]
-        #match_values = results['distances'][0]
-
-        # Creamos el DataFrame
-        #df_sorted = pd.DataFrame({
-        #'Filename': file_values,
-        #'MatchValue': match_values
-        #})
-        #store_to_sqlite(df_sorted)
-
 
     col1, col2 = st.columns([3, 1])
     df_sorted_from_db = read_from_sqlite()
