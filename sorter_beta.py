@@ -295,8 +295,6 @@ def main():
         message = delete_table_contents()
         st.write(message)
     if st.button('procesar query'):
-        st.session_state['uploaded_files'].remove(uploaded_file)
-        st.experimental_rerun()
         if jd:
             results=read_chroma_db(jd,5)
             file_values = [meta['source'] for meta in results['metadatas'][0]]
