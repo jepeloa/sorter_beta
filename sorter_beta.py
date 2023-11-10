@@ -118,7 +118,7 @@ def save_uploaded_files(uploaded_files):
     for uploaded_file in uploaded_files:
         with open(os.path.join('./CV', uploaded_file.name), 'wb') as f:
             f.write(uploaded_file.getvalue())
-        st.sidebar.success(f"Archivo {uploaded_file.name} guardado con éxito")
+        #st.sidebar.success(f"Archivo {uploaded_file.name} guardado con éxito")
 
 def save_JD_files(JD_files):
     for uploaded_file in JD_files:
