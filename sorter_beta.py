@@ -27,7 +27,7 @@ from pyresparser import ResumeParser
                                 #))
 
 from chromadb.utils import embedding_functions
-sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2-similarity-es")
+sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="jaimevera1107/all-MiniLM-L6-v2-similarity-es")
 client = chromadb.Client()
 
 conn = sqlite3.connect('pdf_database.db')
