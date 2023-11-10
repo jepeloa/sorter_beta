@@ -27,7 +27,7 @@ from pyresparser import ResumeParser
                                 #))
 
 from chromadb.utils import embedding_functions
-sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-mpnet-base-v2")
 client=chromadb.PersistentClient(path="./db")
 #client = chromadb.Client()
 
