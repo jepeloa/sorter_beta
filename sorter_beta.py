@@ -97,7 +97,7 @@ def start_pdf_server(port=8081):
     print(f"PDF server started at port {port}")
 
 def read_chroma_db(query,quantity=1):
-    cv_collection = client.get_collection(name="cv_collection")
+    cv_collection = client.get_or_create_collection(name="cv_collection")
     results = cv_collection.query(
     query_texts=[query],
     n_results=quantity
