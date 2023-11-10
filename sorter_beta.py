@@ -28,7 +28,8 @@ from pyresparser import ResumeParser
 
 from chromadb.utils import embedding_functions
 sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
-client = chromadb.Client()
+client=chromadb.PersistentClient(path="./db")
+#client = chromadb.Client()
 
 conn = sqlite3.connect('pdf_database.db')
 cursor = conn.cursor()
@@ -203,7 +204,7 @@ def store_CV_in_db(file_data):
         ids.append(str(index + 1))
 
     # create collection of pet files 
-    cv_collection = client.create_collection("cv_collection")
+    cv_collection = client.get_or_create_collection("cv_collection")
 
     # add files to the chromadb collection
     try:
