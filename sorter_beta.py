@@ -258,7 +258,7 @@ def read_JD_from_pdf(path_to_folder="./JD/JD.pdf"):
 st.title("CV Sorter")
 st.write("Insert the job description and get the matching CVs.")
 jd = st.text_area("Job Description summary", "")
-progress_bar = st.sidebar.progress(0)
+progress_bar = st.progress(0)
 delete_cvs=st.sidebar.button('del CVs')
 delete_query = st.button('delete')
 
