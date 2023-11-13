@@ -25,7 +25,7 @@ from pyresparser import ResumeParser
 import openai
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
-
+jd=' '
 
 from chromadb.utils import embedding_functions
 sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-mpnet-base-v2")
