@@ -207,14 +207,11 @@ def store_CV_in_db(file_data):
     cv_collection = client.get_or_create_collection("cv_collection")
 
     # add files to the chromadb collection
-    try:
-        cv_collection.add(
-            documents=documents,
-            metadatas=metadatas,
-            ids=ids
-        )
-    except:
-        print("no se pudo generar la collection")
+    cv_collection.add(
+        documents=documents,
+        metadatas=metadatas,
+        ids=ids
+    )
     return cv_collection
 
 
