@@ -50,7 +50,7 @@ def chat_gpt_action(text,system,prompt):
     messages=[
         {"role": "system", "content": f"{system}"},
         {"role": "user", "content": f"{prompt} texto: {text}"},
-    ]
+    ])
     message = response.choices[0]['message']
     print("{}: {}".format(message['role'], message['content']))
     return message
