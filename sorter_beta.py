@@ -319,9 +319,12 @@ def main():
             'MatchValue': match_values
             })
             combined_string = df_sorted.apply(lambda row: f"Nombre archivo Curriculum vitae {row['Filename']} contenido del curriculum {row['documents']}", axis=1).str.cat(sep=' ')
-            user_prompt=f"Debes elegir en el texto que te proporciono el candidato que mejor se ajuste a este puesto de trabajo: {jd}, a continuacion tienes curriculums vitae identificados por nombre de archivo y contenido. Curriculumns: {combined_string} elije utilizando este informacion proporcionando el nombre de archivo y una breve justificacion de porque es el mejor candidato"
+            user_prompt=f"Debes elegir en el texto que te proporciono el candidato que mejor se ajuste a este puesto de trabajo: {jd}, a continuacion tienes curriculums vitae identificados por nombre de archivo y contenido. Curriculumns: {combined_string} elije utilizando este informacion proporcionando el nombre de archivo y una breve justificacion de porque es el mejor candidato."
             cv_selected=chat_gpt_action(system_prompt,user_prompt)
+            user_prompt=f"quiero que extraigas el primer nombre de archivo con extension pdf del siguiente texto: {cv_selected}. Solo indica el nombre de archivo en tu respuesta. Por ejemplo javier.pdf"
+            File=chat_gpt_action(system_prompt,user_prompt)
             st.write(cv_selected['content'])
+            st.write(File['content'])
             store_to_sqlite(df_sorted)
         else:
             st.write("Please enter a job description to process.")
