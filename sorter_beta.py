@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS mis_documentos (
 def chat_gpt_action(system,prompt):
     response = openai.ChatCompletion.create(
     model='gpt-4-1106-preview',
-    max_tokens=50,
+    max_tokens=5000,
     messages=[
         {"role": "system", "content": f"{system}"},
         {"role": "user", "content": f"{prompt}"},
