@@ -284,12 +284,6 @@ def main():
     except:
         print("No se pudo inciar el servidor pdf")
 
-    if 'uploaded_files' not in st.session_state:
-        st.session_state['uploaded_files'] = []
-
-    if uploaded_files:
-        for uploaded_file in uploaded_files:
-            st.session_state['uploaded_files'].append(uploaded_file)
 
     df_sorted=pd.DataFrame
     #model = Doc2Vec.load('cv_job_maching.model')
@@ -306,11 +300,11 @@ def main():
         st.write(message)
     if st.button('procesar query'):
         if jd:
-            system_prompt="Eres un asistente util"
-            user_prompt="Sumariza el siguiente puesto de trabajo en no mas de 30 palabras"
-            jdsum=chat_gpt_action(jd,system_prompt,user_prompt)
-            print("{}: {}".format(jdsum['role'], jdsum['content']))
-            results=read_chroma_db(str(jdsum['content']),5)
+            #system_prompt="Eres un asistente util"
+            #user_prompt="Sumariza el siguiente puesto de trabajo en no mas de 30 palabras"
+            #jdsum=chat_gpt_action(jd,system_prompt,user_prompt)
+            #print("{}: {}".format(jdsum['role'], jdsum['content']))
+            results=read_chroma_db(jd,5)
             file_values = [meta['source'] for meta in results['metadatas'][0]]
             match_values = results['distances'][0]
 
