@@ -45,13 +45,13 @@ CREATE TABLE IF NOT EXISTS mis_documentos (
 #En esta parte 
 
 
-def chat_gpt_action(text,system,prompt):
+def chat_gpt_action(system,prompt):
     response = openai.ChatCompletion.create(
-    model='gpt-4',
+    model='gpt-4-1106-preview',
     max_tokens=50,
     messages=[
         {"role": "system", "content": f"{system}"},
-        {"role": "user", "content": f"{prompt} texto: {text}"},
+        {"role": "user", "content": f"{prompt}"},
     ])
     message = response.choices[0]['message']
     print("{}: {}".format(message['role'], message['content']))
@@ -308,8 +308,8 @@ def main():
             file_values = [meta['source'] for meta in results['metadatas'][0]]
             match_values = results['distances'][0]
             documents=results['documents'][0]
-            #system_prompt="Eres un asistente util"
-            #user_prompt=f"Debes elegir en el texto que te proporciono el candidato que mejor se ajuste a este puesto de trabajo: {jd} "
+            system_prompt="Eres un asistente util"
+            
 
 
             # Creamos el DataFrame
@@ -318,8 +318,10 @@ def main():
             'documents':documents,
             'MatchValue': match_values
             })
-            combined_string = df_sorted.apply(lambda row: f"{row['Filename']} {row['documents']}", axis=1).str.cat(sep=' ')
-            st.write(combined_string)
+            combined_string = df_sorted.apply(lambda row: f"Nombre archivo Curriculum vitae {row['Filename']} contenido del curriculum {row['documents']}", axis=1).str.cat(sep=' ')
+            user_prompt=f"Debes elegir en el texto que te proporciono el candidato que mejor se ajuste a este puesto de trabajo: {jd}, a continuacion tienes curriculums vitae identificados por nombre de archivo y contenido. Curriculumns: {combined_string} elije utilizando este informacion proporcionando el nombre de archivo y una breve justificacion de porque es el mejor candidato"
+            cv_selected=chat_gpt_action(system_prompt,user_prompt)
+            st.write(cv_selected['content'])
             store_to_sqlite(df_sorted)
         else:
             st.write("Please enter a job description to process.")
