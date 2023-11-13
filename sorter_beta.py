@@ -22,9 +22,8 @@ import plotly.express as px
 import chromadb
 import time
 from pyresparser import ResumeParser
-#client = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet",
-                                    #persist_directory="db/"
-                                #))
+import openai
+openai.api_key = "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"
 
 from chromadb.utils import embedding_functions
 sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-mpnet-base-v2")
@@ -44,6 +43,19 @@ CREATE TABLE IF NOT EXISTS mis_documentos (
 #En esta parte 
 
 
+def chat_gpt_action(text,system,prompt):
+    response = openai.ChatCompletion.create(
+    model='gpt-4',
+    max_tokens=50,
+    messages=[
+        {"role": "system", "content": f"{system}"},
+        {"role": "user", "content": f"{prompt} texto: {text}"},
+    ]
+    message = response.choices[0]['message']
+    print("{}: {}".format(message['role'], message['content']))
+    return message
+
+ 
 
 image = Image.open('logo.png')
 
@@ -291,6 +303,10 @@ def main():
         st.write(message)
     if st.button('procesar query'):
         if jd:
+            system_prompt="Eres un asistente util"
+            user_prompt="Sumariza el siguiente puesto de trabajo en no mas de 30 palabras"
+            jd=chat_gpt_action(jd,system_prompt,user_prompt)
+            print(jd)
             results=read_chroma_db(jd,5)
             file_values = [meta['source'] for meta in results['metadatas'][0]]
             match_values = results['distances'][0]
