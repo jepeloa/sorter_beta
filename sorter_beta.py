@@ -318,7 +318,8 @@ def main():
             'documents':documents,
             'MatchValue': match_values
             })
-            st.write(df_sorted)
+            combined_string = df_sorted.apply(lambda row: f"{row['Filename']} {row['documents']}", axis=1).str.cat(sep=' ')
+            st.write(combined_string)
             store_to_sqlite(df_sorted)
         else:
             st.write("Please enter a job description to process.")
