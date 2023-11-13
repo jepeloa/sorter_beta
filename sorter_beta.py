@@ -23,7 +23,7 @@ import chromadb
 import time
 from pyresparser import ResumeParser
 import openai
-openai.api_key = os.environ["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"]
+openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
 
