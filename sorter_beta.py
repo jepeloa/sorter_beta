@@ -265,7 +265,7 @@ def read_JD_from_pdf(path_to_folder="./JD/JD.pdf"):
 # Text area for the user to input the job description
 st.title("CV Sorter")
 st.write("Insert the job description and get the matching CVs.")
-jd = st.text_area("Job Description summary", "")
+#jd = st.text_area("Job Description summary", "")
 progress_bar = st.progress(0)
 delete_cvs=st.sidebar.button('del CVs')
 delete_query = st.button('delete')
@@ -276,6 +276,7 @@ if delete_cvs:
 
 
 def main():
+    jd = st.text_area("Job Description summary", "")
     path_to_folder='./CV/'
     init_db()
     try:
