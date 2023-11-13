@@ -330,7 +330,7 @@ def main():
             st.write("Please enter a job description to process.")
 
     col1, col2 = st.columns([3, 1])
-    #df_sorted_from_db = read_from_sqlite()
+    df_sorted_from_db = read_from_sqlite()
     if not df_sorted_from_db.empty:
         selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
         pdf_url = f"http://143.198.139.51:8081/CV/{selected_pdf}"
