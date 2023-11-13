@@ -305,10 +305,9 @@ def main():
             #jdsum=chat_gpt_action(jd,system_prompt,user_prompt)
             #print("{}: {}".format(jdsum['role'], jdsum['content']))
             results=read_chroma_db(jd,5)
-            st.write(results)
-            st.write(results['distances'][0])
             file_values = [meta['source'] for meta in results['metadatas'][0]]
             match_values = results['distances'][0]
+            documents=results['documents'][0]
             #system_prompt="Eres un asistente util"
             #user_prompt=f"Debes elegir en el texto que te proporciono el candidato que mejor se ajuste a este puesto de trabajo: {jd} "
 
@@ -316,8 +315,10 @@ def main():
             # Creamos el DataFrame
             df_sorted = pd.DataFrame({
             'Filename': file_values,
+            'documents':documents,
             'MatchValue': match_values
             })
+            st.write(df_sorted)
             store_to_sqlite(df_sorted)
         else:
             st.write("Please enter a job description to process.")
