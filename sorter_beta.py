@@ -308,8 +308,8 @@ def main():
         if jd:
             system_prompt="Eres un asistente util"
             user_prompt="Sumariza el siguiente puesto de trabajo en no mas de 30 palabras"
-            jd=chat_gpt_action(jd,system_prompt,user_prompt)
-            print(jd)
+            jdsum=chat_gpt_action(jd,system_prompt,user_prompt)
+            print(jdsum)
             results=read_chroma_db(str(jd['content']),5)
             file_values = [meta['source'] for meta in results['metadatas'][0]]
             match_values = results['distances'][0]
