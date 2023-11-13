@@ -23,7 +23,9 @@ import chromadb
 import time
 from pyresparser import ResumeParser
 import openai
-openai.api_key = "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"
+openai.api_key = os.environ["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"]
+
+
 
 from chromadb.utils import embedding_functions
 sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-mpnet-base-v2")
