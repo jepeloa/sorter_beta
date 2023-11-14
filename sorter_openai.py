@@ -94,12 +94,14 @@ jd = st.text_area("Job Description summary", "")
 def main():
     if st.button('procesar query'):
         if jd:
+            thread = client.beta.threads.create()
+            print(thread)
             system="Eres un asistente util"
             prompt=jd
             assistant_id="asst_yNOV1BXC70wXg4nCNYFMxdEz"
             thread_id="thread_objI64Kj60FdS2EQrNVB04EN"
             file_id=["file-W5FDDfK8bGeiOKFnItn8PF2w"]
-            text=chat_gpt_assistant(system,prompt,thread_id, assistant_id, file_id)
+            text=chat_gpt_assistant(system,prompt,thread.id, assistant_id, file_id)
             st.write(text)
         else:
             st.write("Please describe de job position")
