@@ -15,6 +15,18 @@ from openai import OpenAI
 
 client = OpenAI()
 
+
+image = Image.open('logo.png')
+
+st.sidebar.image(image, caption=' ', width=200)
+
+uploaded_files=st.sidebar.file_uploader("Upload CVs", accept_multiple_files=True, type="pdf", key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="collapsed")
+
+
+
+
+
+
 def upload_file(filepath):
       file = client.files.create(
       file=open("files/output_san_cristobal/DS_1.pdf", "rb"),
@@ -84,9 +96,9 @@ def main():
         if jd:
             system="Eres un asistente util"
             prompt=jd
-            assistant_id="asst_pSbwUNXpra1hWUQ8cKN8in6U"
+            assistant_id="asst_yNOV1BXC70wXg4nCNYFMxdEz"
             thread_id="thread_objI64Kj60FdS2EQrNVB04EN"
-            file_id=["file-5rQuwUoQzjjKSX8XvTc8W9eJ"]
+            file_id=["file-W5FDDfK8bGeiOKFnItn8PF2w"]
             text=chat_gpt_assistant(system,prompt,thread_id, assistant_id, file_id)
             st.write(text)
         else:
