@@ -321,7 +321,7 @@ def main():
             'MatchValue': match_values
             })
             combined_string = df_sorted.apply(lambda row: f"Nombre archivo Curriculum vitae {row['Filename']} contenido del curriculum {row['documents']}", axis=1).str.cat(sep=' ')
-            user_prompt=f"Quiero que ordenes los curriculums vitae del contexto segun el que mas coincida con lo esto: {jd}, a continuacion tienes curriculums vitae identificados por nombre de archivo y contenido. Curriculumns: {combined_string} elije utilizando este informacion proporcionando el nombre de archivo solamente sin ningun otro comentario"
+            user_prompt=f"Quiero que ordenes los 5 curriculums vitae del contexto segun el que mas coincida con lo esto: {jd}, a continuacion tienes curriculums vitae identificados por nombre de archivo y contenido. Curriculumns: {combined_string} elije utilizando este informacion proporcionando el nombre de archivo solamente sin ningun otro comentario"
             cv_selected=chat_gpt_action(system_prompt,user_prompt)
             user_prompt=f"quiero que extraigas el primer nombre de archivo con extension pdf del siguiente texto: {cv_selected}. Solo indica el nombre de archivo en tu respuesta. Por ejemplo javier.pdf"
             File=chat_gpt_action(system_prompt,user_prompt)
