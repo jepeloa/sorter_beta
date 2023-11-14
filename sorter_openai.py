@@ -92,6 +92,10 @@ def main():
         else:
             st.write("Please describe de job position")
 
+if __name__ == "__main__":
+    main()
+
+
 
 
 
