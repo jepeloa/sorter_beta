@@ -306,7 +306,7 @@ def main():
             #user_prompt="Sumariza el siguiente puesto de trabajo en no mas de 30 palabras"
             #jdsum=chat_gpt_action(jd,system_prompt,user_prompt)
             #print("{}: {}".format(jdsum['role'], jdsum['content']))
-            results=read_chroma_db(jd,5)
+            results=read_chroma_db(jd,10)
             file_values = [meta['source'] for meta in results['metadatas'][0]]
             match_values = results['distances'][0]
             documents=results['documents'][0]
@@ -321,7 +321,7 @@ def main():
             'MatchValue': match_values
             })
             combined_string = df_sorted.apply(lambda row: f"Nombre archivo Curriculum vitae {row['Filename']} contenido del curriculum {row['documents']}", axis=1).str.cat(sep=' ')
-            user_prompt=f"Quiero que ordenes los 5 curriculums vitae del contexto segun el que mas coincida con lo esto: {jd}, a continuacion tienes curriculums vitae identificados por nombre de archivo y contenido. Curriculumns: {combined_string} elije utilizando este informacion proporcionando el nombre de archivo solamente. Si no hay ninguna coincidencia di: No hay ningun candidato que cumpla los requisitos solicitados"
+            user_prompt=f"Quiero que ordenes los 10 curriculums vitae del contexto segun el que mas coincida con lo esto: {jd}, a continuacion tienes curriculums vitae identificados por nombre de archivo y contenido. Curriculumns: {combined_string} elije utilizando este informacion proporcionando el nombre de archivo solamente. Si no hay ninguna coincidencia di: No hay ningun candidato que cumpla los requisitos solicitados"
             cv_selected=chat_gpt_action(system_prompt,user_prompt)
             user_prompt=f"quiero que extraigas el primer nombre de archivo con extension pdf del siguiente texto: {cv_selected}. Solo indica el nombre de archivo en tu respuesta. Por ejemplo javier.pdf"
             File=chat_gpt_action(system_prompt,user_prompt)
