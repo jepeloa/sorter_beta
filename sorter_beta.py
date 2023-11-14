@@ -270,7 +270,7 @@ st.write("Insert the job description and get the matching CVs.")
 #jd = st.text_area("Job Description summary", "")
 progress_bar = st.progress(0)
 delete_cvs=st.sidebar.button('del CVs')
-delete_query = st.button('delete')
+#delete_query = st.button('delete')
 
 if delete_cvs:
         delete_files_in_directory('./CV')
@@ -297,15 +297,16 @@ def main():
             cv_collection=store_CV_in_db(file_data)
         
             
-    if delete_query:
-        message = delete_table_contents()
-        st.write(message)
+   # if delete_query:
+    #    message = delete_table_contents()
+    #    st.write(message)
     if st.button('procesar query'):
         if jd:
             #system_prompt="Eres un asistente util"
             #user_prompt="Sumariza el siguiente puesto de trabajo en no mas de 30 palabras"
             #jdsum=chat_gpt_action(jd,system_prompt,user_prompt)
             #print("{}: {}".format(jdsum['role'], jdsum['content']))
+            delete_table_contents()
             results=read_chroma_db(jd,10)
             file_values = [meta['source'] for meta in results['metadatas'][0]]
             match_values = results['distances'][0]
