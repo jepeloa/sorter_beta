@@ -347,10 +347,12 @@ def main():
         # Inserta el elemento al principio de la lista
             lista.insert(0, File)
             if jd:
-                selected_pdf = st.selectbox('Elige un PDF:', lista)
+                #selected_pdf = st.selectbox('Elige un PDF:', lista)
+                pass
         except:
             if jd:
-                selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
+                #selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
+                pass
         if process:
             if jd:
                 #pdf_url = f"http://143.198.139.51:8081/CV/{selected_pdf}"
@@ -366,7 +368,7 @@ def main():
                 #fig = px.bar(df_sorted_from_db, x='Filename', y='MatchValue', title='Match Values by Filename')
 
         # Mostrar el gráfico en Streamlit
-                st.plotly_chart(fig)
+                #st.plotly_chart(fig)
   
 
 if __name__ == "__main__":
