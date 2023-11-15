@@ -269,10 +269,9 @@ def read_JD_from_pdf(path_to_folder="./JD/JD.pdf"):
 st.title("CV Sorter")
 st.write("Insert the job description and get the matching CVs.")
 #jd = st.text_area("Job Description summary", "")
+process=st.sidebar.button('procesar query')
 progress_bar = st.progress(0)
-delete_cvs=st.sidebar.button('del CVs')
-jd = st.text_area("Job Description summary", "")
-process=st.button('procesar query')
+delete_cvs=st.sidebar.button('Borrar curriculums')
 #delete_query = st.button('delete')
 
 if delete_cvs:
@@ -281,6 +280,7 @@ if delete_cvs:
 
 
 def main():
+    jd = st.text_area("Job Description summary", "")
     path_to_folder='./CV/'
     init_db()
     try:
