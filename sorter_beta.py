@@ -269,9 +269,10 @@ def read_JD_from_pdf(path_to_folder="./JD/JD.pdf"):
 st.title("CV Sorter")
 st.write("Insert the job description and get the matching CVs.")
 #jd = st.text_area("Job Description summary", "")
-process=st.sidebar.button('procesar query')
 progress_bar = st.progress(0)
 delete_cvs=st.sidebar.button('Borrar curriculums')
+jd = st.text_area("Job Description summary", "")
+process=st.sidebar.button('procesar query')
 #delete_query = st.button('delete')
 
 if delete_cvs:
@@ -280,7 +281,6 @@ if delete_cvs:
 
 
 def main():
-    jd = st.text_area("Job Description summary", "")
     path_to_folder='./CV/'
     init_db()
     try:
@@ -355,16 +355,16 @@ def main():
             if jd:
                 st.text("Resultado")
                 st.markdown(str(cv_selected['content']))
-        st.markdown(f'<iframe src="{pdf_url}" width="700" height="900"></iframe>', unsafe_allow_html=True)
-        s=""
-        for i in skills:
-            s += "- " + i + "\n"
-        st.markdown(s)
-        #df_sorted_from_db['MatchValue']=((1-(df_sorted_from_db['MatchValue']/df_sorted_from_db['MatchValue'].max()))/(1-(df_sorted_from_db['MatchValue']/df_sorted_from_db['MatchValue'].max())).max())*100
-        fig = px.bar(df_sorted_from_db, x='Filename', y='MatchValue', title='Match Values by Filename')
+                st.markdown(f'<iframe src="{pdf_url}" width="700" height="900"></iframe>', unsafe_allow_html=True)
+                s=""
+                for i in skills:
+                    s += "- " + i + "\n"
+                st.markdown(s)
+                #df_sorted_from_db['MatchValue']=((1-(df_sorted_from_db['MatchValue']/df_sorted_from_db['MatchValue'].max()))/(1-(df_sorted_from_db['MatchValue']/df_sorted_from_db['MatchValue'].max())).max())*100
+                fig = px.bar(df_sorted_from_db, x='Filename', y='MatchValue', title='Match Values by Filename')
 
         # Mostrar el gráfico en Streamlit
-        st.plotly_chart(fig)
+                st.plotly_chart(fig)
   
 
 if __name__ == "__main__":
