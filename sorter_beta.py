@@ -306,7 +306,7 @@ def main():
             #user_prompt="Sumariza el siguiente puesto de trabajo en no mas de 30 palabras"
             #jdsum=chat_gpt_action(jd,system_prompt,user_prompt)
             #print("{}: {}".format(jdsum['role'], jdsum['content']))
-            delete_table_contents()
+            #delete_table_contents()
             results=read_chroma_db(jd,10)
             file_values = [meta['source'] for meta in results['metadatas'][0]]
             match_values = results['distances'][0]
