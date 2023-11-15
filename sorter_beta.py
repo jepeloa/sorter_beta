@@ -327,13 +327,9 @@ def main():
             user_prompt=f"Quiero que ordenes los 10 curriculums vitae del contexto segun el que mas coincida con lo esto: {jd}, a continuacion tienes curriculums vitae identificados por nombre de archivo y contenido. Curriculumns: {combined_string} elije utilizando este informacion proporcionando el nombre de archivo solamente. Si no hay ninguna coincidencia di: No hay ningun candidato que cumpla los requisitos solicitados"
             cv_selected=chat_gpt_action(system_prompt,user_prompt)
             print(f"el cv seleccionado es {cv_selected}")
-            if cv_selected=='': #"sino viene nada vuelvo a intentar"
-                print("vacio vuelvo a probar")
-                cv_selected=chat_gpt_action(system_prompt,user_prompt)
             user_prompt=f"quiero que extraigas el primer nombre de archivo con extension pdf del siguiente texto: {cv_selected}. Solo indica el nombre de archivo en tu respuesta. Por ejemplo javier.pdf"
             File=chat_gpt_action(system_prompt,user_prompt)
-            time.sleep(1)
-            st.markdown(cv_selected['content'])
+            st.markdown(str(cv_selected['content']))
             store_to_sqlite(df_sorted)
         else:
             st.write("Please enter a job description to process.")
