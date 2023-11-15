@@ -329,12 +329,10 @@ def main():
             print(f"el cv seleccionado es {cv_selected}")
             user_prompt=f"quiero que extraigas el primer nombre de archivo con extension pdf del siguiente texto: {cv_selected}. Solo indica el nombre de archivo en tu respuesta. Por ejemplo javier.pdf"
             File=chat_gpt_action(system_prompt,user_prompt)
-            st.text("Resultado")
-            st.markdown(str(cv_selected['content']))
             store_to_sqlite(df_sorted)
         else:
             st.write("Please enter a job description to process.")
-     
+    
     col1, col2 = st.columns([3, 1])
     df_sorted_from_db = read_from_sqlite()
     if not df_sorted_from_db.empty:
@@ -352,6 +350,9 @@ def main():
             selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
         pdf_url = f"http://143.198.139.51:8081/CV/{selected_pdf}"
         skills=obtain_skills(f"./CV/{selected_pdf}")
+        if jd:
+            st.text("Resultado")
+            st.markdown(str(cv_selected['content']))
         st.markdown(f'<iframe src="{pdf_url}" width="700" height="900"></iframe>', unsafe_allow_html=True)
         s=""
         for i in skills:
