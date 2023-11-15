@@ -272,7 +272,7 @@ st.write("Insert the job description and get the matching CVs.")
 progress_bar = st.progress(0)
 delete_cvs=st.sidebar.button('Borrar curriculums')
 jd = st.text_area("Job Description summary", "")
-process=st.sidebar.button('procesar query')
+process=st.button('procesar query')
 #delete_query = st.button('delete')
 
 if delete_cvs:
@@ -346,9 +346,11 @@ def main():
 
         # Inserta el elemento al principio de la lista
             lista.insert(0, File)
-            selected_pdf = st.selectbox('Elige un PDF:', lista)
+            if jd:
+                selected_pdf = st.selectbox('Elige un PDF:', lista)
         except:
-            selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
+            if jd:
+                selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
         pdf_url = f"http://143.198.139.51:8081/CV/{selected_pdf}"
         skills=obtain_skills(f"./CV/{selected_pdf}")
         if process:
