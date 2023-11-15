@@ -328,7 +328,8 @@ def main():
             cv_selected=chat_gpt_action(system_prompt,user_prompt)
             user_prompt=f"quiero que extraigas el primer nombre de archivo con extension pdf del siguiente texto: {cv_selected}. Solo indica el nombre de archivo en tu respuesta. Por ejemplo javier.pdf"
             File=chat_gpt_action(system_prompt,user_prompt)
-            st.write(cv_selected['content'])
+            time.sleep(1)
+            st.markdown(cv_selected['content'])
             store_to_sqlite(df_sorted)
         else:
             st.write("Please enter a job description to process.")
