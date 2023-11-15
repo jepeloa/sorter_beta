@@ -322,6 +322,7 @@ def main():
             'documents':documents,
             'MatchValue': match_values
             })
+            print("entrando a modulo chatgpt")
             combined_string = df_sorted.apply(lambda row: f"Nombre archivo Curriculum vitae {row['Filename']} contenido del curriculum {row['documents']}", axis=1).str.cat(sep=' ')
             user_prompt=f"Quiero que ordenes los 10 curriculums vitae del contexto segun el que mas coincida con lo esto: {jd}, a continuacion tienes curriculums vitae identificados por nombre de archivo y contenido. Curriculumns: {combined_string} elije utilizando este informacion proporcionando el nombre de archivo solamente. Si no hay ninguna coincidencia di: No hay ningun candidato que cumpla los requisitos solicitados"
             cv_selected=chat_gpt_action(system_prompt,user_prompt)
