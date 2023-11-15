@@ -217,6 +217,7 @@ def store_CV_in_db(file_data):
         ids.append(str(index + 1))
 
     # create collection of pet files 
+    client.delete_collection(name="my_collection")
     cv_collection = client.get_or_create_collection("cv_collection")
 
     # add files to the chromadb collection
