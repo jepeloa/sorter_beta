@@ -30,7 +30,7 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 jd=' '
 
 from chromadb.utils import embedding_functions
-sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-mpnet-base-v2")
+sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-mpnet-base-v6")
 client=chromadb.PersistentClient(path="./db")
 #client = chromadb.Client()
 
@@ -66,7 +66,7 @@ image = Image.open('logo.png')
 st.sidebar.image(image, caption=' ', width=200)
 
 uploaded_files=st.sidebar.file_uploader("Upload CVs", accept_multiple_files=True, type="pdf", key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="collapsed")
-JD_files=st.sidebar.file_uploader("Upload JD", accept_multiple_files=True, type="pdf", key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="collapsed")
+#JD_files=st.sidebar.file_uploader("Upload JD", accept_multiple_files=True, type="pdf", key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="collapsed")
 
 ####################################################
 def store_to_sqlite(df):
@@ -161,9 +161,9 @@ if uploaded_files:
             #client.delete_collection(name="cv_collection")
             save_uploaded_files(uploaded_files)
             
-if JD_files:
-    if st.button('Upload JD_file'):
-        save_JD_files(JD_files)
+#if JD_files:
+ #   if st.button('Upload JD_file'):
+  #      save_JD_files(JD_files)
 
 
 
@@ -349,11 +349,11 @@ def main():
         # Inserta el elemento al principio de la lista
             lista.insert(0, File)
             if jd:
-                #selected_pdf = st.selectbox('Elige un PDF:', lista)
+                selected_pdf = st.selectbox('Elige un PDF:', lista)
                 pass
         except:
             if jd:
-                #selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
+                selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
                 pass
         if process:
             if jd:
