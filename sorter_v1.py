@@ -164,7 +164,6 @@ if uploaded_files:
 if JD_files:
     if st.button('Upload JD_file'):
         save_JD_files(JD_files)
-     pass
 
 
 
