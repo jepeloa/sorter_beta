@@ -295,10 +295,10 @@ def main():
     #model = Doc2Vec.load('cv_job_maching.model')
 
     
-    if uploaded_files:
-        if st.sidebar.button("procesar"):
-            file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
-            cv_collection=store_CV_in_db(file_data)
+   
+    if st.sidebar.button("procesar"):
+        file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
+        cv_collection=store_CV_in_db(file_data)
         
             
     if delete_query:
