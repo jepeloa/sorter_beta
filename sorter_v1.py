@@ -325,13 +325,13 @@ def main():
             'documents':documents,
             'MatchValue': match_values
             })
-            print("entrando a modulo chatgpt")
-            combined_string = df_sorted.apply(lambda row: f"Nombre archivo Curriculum vitae {row['Filename']} contenido del curriculum {row['documents']}", axis=1).str.cat(sep=' ')
-            user_prompt=f"Quiero que ordenes los 5 curriculums vitae del contexto segun el que mas coincida con esta descripcion de trabajo: {jd}. Los Curriculumns son: {combined_string} da una breve explicacion de como se selecciono y el nombre del archivo pdf. Si no hay ninguna coincidencia di: No hay ningun candidato que cumpla los requisitos solicitados"
-            cv_selected=chat_gpt_action(system_prompt,user_prompt)
-            print(f"el cv seleccionado es {cv_selected}")
-            user_prompt=f"quiero que extraigas el primer nombre de archivo con extension pdf del siguiente texto: {cv_selected}. Solo indica el nombre de archivo en tu respuesta. Por ejemplo javier.pdf"
-            File=chat_gpt_action(system_prompt,user_prompt)
+            #print("entrando a modulo chatgpt")
+            #combined_string = df_sorted.apply(lambda row: f"Nombre archivo Curriculum vitae {row['Filename']} contenido del curriculum {row['documents']}", axis=1).str.cat(sep=' ')
+            #user_prompt=f"Quiero que ordenes los 5 curriculums vitae del contexto segun el que mas coincida con esta descripcion de trabajo: {jd}. Los Curriculumns son: {combined_string} da una breve explicacion de como se selecciono y el nombre del archivo pdf. Si no hay ninguna coincidencia di: No hay ningun candidato que cumpla los requisitos solicitados"
+            #cv_selected=chat_gpt_action(system_prompt,user_prompt)
+            #print(f"el cv seleccionado es {cv_selected}")
+            #user_prompt=f"quiero que extraigas el primer nombre de archivo con extension pdf del siguiente texto: {cv_selected}. Solo indica el nombre de archivo en tu respuesta. Por ejemplo javier.pdf"
+            #File=chat_gpt_action(system_prompt,user_prompt)
             store_to_sqlite(df_sorted)
         else:
             st.write("Please enter a job description to process.")
