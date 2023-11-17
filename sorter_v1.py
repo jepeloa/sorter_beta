@@ -217,7 +217,7 @@ def store_CV_in_db(file_data):
 
     # create collection of pet files 
     try:
-        client.delete_collection(name="my_collection")
+        client.delete_collection(name="cv_collection")
     except:
         pass
     cv_collection = client.get_or_create_collection("cv_collection")
