@@ -339,17 +339,7 @@ def main():
     col1, col2 = st.columns([3, 1])
     df_sorted_from_db = read_from_sqlite()
     if not df_sorted_from_db.empty:
-        lista=df_sorted_from_db['Filename'].tolist()
-        indice = lista.index(File)
-
-    # Elimina el elemento de la lista
-        lista.pop(indice)
-
-    # Inserta el elemento al principio de la lista
-        lista.insert(0, File)
-     
         selected_pdf = st.selectbox('Elige un PDF:', df_sorted_from_db['Filename'].tolist())
-
         if process:
             if jd:
                 pdf_url = f"http://143.198.139.51:8081/CV/{selected_pdf}"
