@@ -275,7 +275,7 @@ progress_bar = st.progress(0)
 delete_cvs=st.sidebar.button('Borrar curriculums')
 jd = st.text_area("Job Description summary", "")
 process=st.button('procesar query')
-#delete_query = st.button('delete')
+delete_query = st.button('delete')
 
 if delete_cvs:
         delete_files_in_directory('./CV')
@@ -301,9 +301,9 @@ def main():
             cv_collection=store_CV_in_db(file_data)
         
             
-   # if delete_query:
-    #    message = delete_table_contents()
-    #    st.write(message)
+    if delete_query:
+        message = delete_table_contents()
+        st.write(message)
     if process:
         if jd:
             #system_prompt="Eres un asistente util"
