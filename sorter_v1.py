@@ -230,6 +230,25 @@ def store_CV_in_db(file_data):
     )
     return cv_collection
 
+def dividir_texto(texto, limite_palabras=256):
+    palabras = texto.split()
+    segmentos = []
+    segmento_actual = []
+    contador_palabras = 0
+
+    for palabra in palabras:
+        segmento_actual.append(palabra)
+        contador_palabras += 1
+
+        if contador_palabras >= limite_palabras:
+            segmentos.append(' '.join(segmento_actual))
+            segmento_actual = []
+            contador_palabras = 0
+
+    if segmento_actual:
+        segmentos.append(' '.join(segmento_actual))
+
+    return segmentos
 
 
 
@@ -248,7 +267,9 @@ def read_CV_from_pdf(path_to_folder):
                 pageObj = pdf.pages[i]
                 text_to=pageObj.extract_text()
                 resume+=text_to
-        file_data.append({"file_name": pdf_file, "content": resume})
+        segmentos = dividir_texto(resume, 1)
+        for segmento in segmentos:
+            file_data.append({"file_name": pdf_file, "content": segmento})
         
         j=j+1
         progress_bar.progress(int(j*100/len(all_files)),text=f"processing: {pdf_file}")
@@ -311,7 +332,7 @@ def main():
             #jdsum=chat_gpt_action(jd,system_prompt,user_prompt)
             #print("{}: {}".format(jdsum['role'], jdsum['content']))
             #delete_table_contents()
-            results=read_chroma_db(jd,15)
+            results=read_chroma_db(jd,40)
             file_values = [meta['source'] for meta in results['metadatas'][0]]
             match_values = results['distances'][0]
             documents=results['documents'][0]
@@ -354,7 +375,8 @@ def main():
             fig = px.bar(df_sorted_from_db, x='Filename', y='MatchValue', title='Match Values by Filename')
 
         # Mostrar el gráfico en Streamlit
-                #st.plotly_chart(fig)
+            st.plotly_chart(fig)
+            st.write(df_sorted)
   
 
 if __name__ == "__main__":
