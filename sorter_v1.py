@@ -23,14 +23,12 @@ import chromadb
 import time
 from pyresparser import ResumeParser
 import openai
-openai.api_key = os.environ["OPENAI_API_KEY"]
-
+#openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
 jd=' '
 
 from chromadb.utils import embedding_functions
-sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="paraphrase-multilingual-mpnet-base-v2")
 client=chromadb.PersistentClient(path="./db")
 #client = chromadb.Client()
 
@@ -250,6 +248,11 @@ def dividir_texto(texto, limite_palabras=256):
 
     return segmentos
 
+def read_dataset(path_to_folder):
+    df = pd.read_excel(f"{path_to_folder}/dataset.xlsx")
+    df['data']=df['data'].astype(str)
+    return df
+
 
 
 def read_CV_from_pdf(path_to_folder):
@@ -267,7 +270,7 @@ def read_CV_from_pdf(path_to_folder):
                 pageObj = pdf.pages[i]
                 text_to=pageObj.extract_text()
                 resume+=text_to
-        segmentos = dividir_texto(resume, 1)
+        segmentos = dividir_texto(resume, 256)
         for segmento in segmentos:
             file_data.append({"file_name": pdf_file, "content": segmento})
         
@@ -319,6 +322,8 @@ def main():
    
     if st.sidebar.button("procesar"):
         file_data = read_CV_from_pdf(path_to_folder)  #extraigo datos de los pdf
+        #file_data=read_dataset("./")
+        #st.write(file_data)
         cv_collection=store_CV_in_db(file_data)
         
             
@@ -332,7 +337,7 @@ def main():
             #jdsum=chat_gpt_action(jd,system_prompt,user_prompt)
             #print("{}: {}".format(jdsum['role'], jdsum['content']))
             #delete_table_contents()
-            results=read_chroma_db(jd,40)
+            results=read_chroma_db(jd,30)
             file_values = [meta['source'] for meta in results['metadatas'][0]]
             match_values = results['distances'][0]
             documents=results['documents'][0]
@@ -346,6 +351,8 @@ def main():
             'documents':documents,
             'MatchValue': match_values
             })
+            df_sorted = df_sorted.sort_values(by='MatchValue', ascending=True) # o ascending=False si lo quieres en orden descendente
+            st.write(df_sorted)
             #print("entrando a modulo chatgpt")
             #combined_string = df_sorted.apply(lambda row: f"Nombre archivo Curriculum vitae {row['Filename']} contenido del curriculum {row['documents']}", axis=1).str.cat(sep=' ')
             #user_prompt=f"Quiero que ordenes los 5 curriculums vitae del contexto segun el que mas coincida con esta descripcion de trabajo: {jd}. Los Curriculumns son: {combined_string} da una breve explicacion de como se selecciono y el nombre del archivo pdf. Si no hay ninguna coincidencia di: No hay ningun candidato que cumpla los requisitos solicitados"
@@ -376,7 +383,6 @@ def main():
 
         # Mostrar el gráfico en Streamlit
             st.plotly_chart(fig)
-            st.write(df_sorted)
   
 
 if __name__ == "__main__":
